@@ -22,10 +22,15 @@ namespace novascript
            " func test {" +
            " // this should log an exception at index 66 (comments not implemented, yet so it should be unrecognized." +
            "}";
+
             Lexer lex = new Lexer(testScript);
-            var tokens = lex.Lex();
+            foreach (var token in lex.Lex())
+                Console.WriteLine("Token:" + token.Key + " - Token Value: " + token.Value);
+            Console.WriteLine("---------");
+            Console.WriteLine("---------");
             lex = new Lexer(testScript2);
-            var tokensUpToFailure = lex.Lex(); // should log exception
+            foreach (var token in lex.Lex())
+                Console.WriteLine("Token:" + token.Key + " - Token Value: " + token.Value); // should log exception
         }
     }
 }

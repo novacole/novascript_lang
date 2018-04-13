@@ -23,75 +23,74 @@ namespace NovaScript
             {
                 if (!IsOutOfRange(1))
                 {
-
-                }
-                if (IsWhiteSpace(_source[_index].ToString()))
-                {
-                    //just consume and ignore whitespace
-                }
-                else if (IsString(_source[_index].ToString()))
-                {
-                    _tokenPair.Add(new StringToken(), _currentWord.Trim());
-                    _currentWord = string.Empty;
-                }
-                else if (IsInteger(_source[_index].ToString()))
-                {
-                    _tokenPair.Add(new IntegerToken(), _currentWord.Trim());
-                    _currentWord = string.Empty;
-                }
-                else if (IsIdentifier(_source[_index].ToString()))
-                {
-                    if (IsReservedWord(_currentWord.Trim()))
+                    if (IsWhiteSpace(_source[_index].ToString()))
                     {
-                        _tokenPair.Add(new ReservedToken(), _currentWord.Trim());
+                        //just consume and ignore whitespace
+                    }
+                    else if (IsString(_source[_index].ToString()))
+                    {
+                        _tokenPair.Add(new StringToken(), _currentWord.Trim());
+                        _currentWord = string.Empty;
+                    }
+                    else if (IsInteger(_source[_index].ToString()))
+                    {
+                        _tokenPair.Add(new IntegerToken(), _currentWord.Trim());
+                        _currentWord = string.Empty;
+                    }
+                    else if (IsIdentifier(_source[_index].ToString()))
+                    {
+                        if (IsReservedWord(_currentWord.Trim()))
+                        {
+                            _tokenPair.Add(new ReservedToken(), _currentWord.Trim());
+                            _currentWord = string.Empty;
+                        }
+                        else
+                        {
+                            _tokenPair.Add(new IdentifierToken(), _currentWord.Trim());
+                            _currentWord = string.Empty;
+                        }
+                    }
+                    else if (IsSymbol(_source[_index].ToString()))
+                    {
+                        _tokenPair.Add(new SymbolToken(), _currentWord.Trim());
+                        _currentWord = string.Empty;
+                    }
+                    else if (IsBooleanOperator(_source[_index].ToString()))
+                    {
+                        _tokenPair.Add(new BooleanOperatorToken(), _currentWord.Trim());
+                        _currentWord = string.Empty;
+                    }
+                    else if (IsBlockExpressionStart(_source[_index].ToString()))
+                    {
+                        _tokenPair.Add(new ExpressionBlockStartToken(), _currentWord.Trim());
+                        _currentWord = string.Empty;
+                    }
+                    else if (IsBlockExpressionEnd(_source[_index].ToString()))
+                    {
+                        _tokenPair.Add(new ExpressionBlockEndToken(), _currentWord.Trim());
+                        _currentWord = string.Empty;
+                    }
+                    else if (IsParenStart(_source[_index].ToString()))
+                    {
+                        _tokenPair.Add(new ParenStartToken(), _currentWord.Trim());
+                        _currentWord = string.Empty;
+                    }
+                    else if (IsParenEnd(_source[_index].ToString()))
+                    {
+                        _tokenPair.Add(new ParenEndToken(), _currentWord.Trim());
+                        _currentWord = string.Empty;
+                    }
+                    else if (IsStatementTerminator(_source[_index].ToString()))
+                    {
+                        _tokenPair.Add(new StatementTerminatorToken(), _currentWord.Trim());
                         _currentWord = string.Empty;
                     }
                     else
                     {
-                        _tokenPair.Add(new IdentifierToken(), _currentWord.Trim());
-                        _currentWord = string.Empty;
+                        // lexer failure, unrecognized symbol.
+                        new LexerException(_source[_index].ToString(), _index);
+                        break;
                     }
-                }
-                else if (IsSymbol(_source[_index].ToString()))
-                {
-                    _tokenPair.Add(new SymbolToken(), _currentWord.Trim());
-                    _currentWord = string.Empty;
-                }
-                else if (IsBooleanOperator(_source[_index].ToString()))
-                {
-                    _tokenPair.Add(new BooleanOperatorToken(), _currentWord.Trim());
-                    _currentWord = string.Empty;
-                }
-                else if (IsBlockExpressionStart(_source[_index].ToString()))
-                {
-                    _tokenPair.Add(new ExpressionBlockStartToken(), _currentWord.Trim());
-                    _currentWord = string.Empty;
-                }
-                else if (IsBlockExpressionEnd(_source[_index].ToString()))
-                {
-                    _tokenPair.Add(new ExpressionBlockEndToken(), _currentWord.Trim());
-                    _currentWord = string.Empty;
-                }
-                else if (IsParenStart(_source[_index].ToString()))
-                {
-                    _tokenPair.Add(new ParenStartToken(), _currentWord.Trim());
-                    _currentWord = string.Empty;
-                }
-                else if (IsParenEnd(_source[_index].ToString()))
-                {
-                    _tokenPair.Add(new ParenEndToken(), _currentWord.Trim());
-                    _currentWord = string.Empty;
-                }
-                else if (IsStatementTerminator(_source[_index].ToString()))
-                {
-                    _tokenPair.Add(new StatementTerminatorToken(), _currentWord.Trim());
-                    _currentWord = string.Empty;
-                }
-                else
-                {
-                    // lexer failure, unrecognized symbol.
-                    new LexerException(_source[_index].ToString(),_index);
-                    break;
                 }
             }
             return _tokenPair;
@@ -140,10 +139,10 @@ namespace NovaScript
             if (symbol == "\"")
             {
                 _index++;
-                while (!IsOutOfRange(1) 
-                && !(IsStringTerminator(_source[_index].ToString()) 
-                && !(IsStringTerminator(_source[_index].ToString()) 
-                && (Char.IsLetterOrDigit(_source[_index]) 
+                while (!IsOutOfRange(1)
+                && !(IsStringTerminator(_source[_index].ToString())
+                && !(IsStringTerminator(_source[_index].ToString())
+                && (Char.IsLetterOrDigit(_source[_index])
                 || IsWhiteSpace(_source[_index].ToString())))))
                 {
                     _currentWord += _source[_index].ToString();
@@ -169,8 +168,8 @@ namespace NovaScript
         }
         public bool IsSymbol(string symbol)
         {
-            if (Char.IsSymbol(symbol.ToCharArray()[0]) 
-            || symbol.ToCharArray()[0] == '-' && symbol != "|") 
+            if (Char.IsSymbol(symbol.ToCharArray()[0])
+            || symbol.ToCharArray()[0] == '-' && symbol != "|")
             // symbol for us just means =,<,>
             {
                 _currentWord += _source[_index++].ToString();
