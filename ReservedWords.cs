@@ -1,0 +1,54 @@
+namespace NovaScript
+{
+    partial class Lexer
+    {
+        enum ReservedWords
+        {
+            AND,
+            ELSE,
+            ELSEIF,
+            FOR,
+            GOTO,
+            IF,
+            OR,
+            FUNC,
+            VOID,
+            DO,
+            TO,
+            WHILE,
+            BREAK,
+            CONST,
+            SHORT,
+            INT,
+            STRUCT,
+            UNSIGNED,
+            DOUBLE,
+            FLOAT,
+            CONTINUE,
+            LONG,
+            SIGNED,
+            SWITCH,
+            CASE,
+            SIZEOF,
+            TYPEOF,
+            ENUM,
+            CHAR,
+            RETURN,
+            STATIC,
+            CLASS,
+            NAMESPACE,
+            PUBLIC,
+            PRIVATE,
+            LET,
+            VAR,
+            TRUE,
+            FALSE,
+            INTERFACE,
+            BOOL,
+            NEW,
+            BYTE,
+            NULL,
+            BASE
+        }
+    }
+}
